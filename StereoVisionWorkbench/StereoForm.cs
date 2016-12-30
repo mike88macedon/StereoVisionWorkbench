@@ -1,7 +1,9 @@
-﻿using SharpGL;
+﻿using Emgu.CV.Structure;
+using SharpGL;
 using StereoVisionWorkbench.StereoUtillities;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static StereoVisionWorkbench.StereoUtillities.StereoPair;
@@ -136,7 +138,7 @@ namespace StereoVisionWorkbench
         {
             if (sadWindowScroll.Value % 2 == 0)
             {
-                if (sadWindowScroll.Value==sadWindowScroll.Maximum)
+                if (sadWindowScroll.Value == sadWindowScroll.Maximum)
                 {
                     sadWindowScroll.Value = sadWindowScroll.Maximum - 2;
                 }
@@ -172,12 +174,30 @@ namespace StereoVisionWorkbench
         {
             StereoCalibration.Speckle = scrollSpeckleWindow.Value;
         }
-        float rtri = 0;
-        float rquad = 0;
-        private void openGLControl1_OpenGLDraw(object sender, SharpGL.RenderEventArgs args)
+
+        private void btnExport_Click(object sender, EventArgs e)
         {
-           
-           
+            MCvPoint3D32f[] pcdPoints = stereoPair.Points;
+            StringWriter pcdWriter = new StringWriter();
+            if (pcdPoints.Length != 0)
+            {
+                pcdWriter.WriteLine("# .PCD v.7 - Point Cloud Data file format");
+                pcdWriter.WriteLine("VERSION .7");
+                pcdWriter.WriteLine("FIELDS x y z");
+                pcdWriter.WriteLine("SIZE 4 4 4");
+                pcdWriter.WriteLine("TYPE F F F");
+                pcdWriter.WriteLine("COUNT 1 1 1");
+                pcdWriter.WriteLine(string.Format("WIDTH {0}", pcdPoints.Length));
+                pcdWriter.WriteLine("HEIGHT 1");
+                pcdWriter.WriteLine("VIEWPOINT 0 0 0 1 0 0 0");
+                pcdWriter.WriteLine(string.Format("POINTS {0}", pcdPoints.Length));
+                pcdWriter.WriteLine("DATA ascii");
+                foreach (var item in pcdPoints)
+                {
+                    pcdWriter.WriteLine(string.Format("{0} {1} {2}",item.X/100,item.Y/100,item.Z/100));
+                }
+                File.WriteAllText(ConfigurationUtil.GetConfigurationValue("pcds")+"\\"+ Guid.NewGuid().ToString().Substring(0, 8).ToString()+".pcd",pcdWriter.GetStringBuilder().ToString());
+            }
         }
     }
 }

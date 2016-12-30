@@ -53,6 +53,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.numDisparities = new System.Windows.Forms.TrackBar();
             this.openGLControl1 = new SharpGL.OpenGLControl();
+            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -338,21 +339,31 @@
             // openGLControl1
             // 
             this.openGLControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.openGLControl1.DrawFPS = false;
+            this.openGLControl1.DrawFPS = true;
             this.openGLControl1.Location = new System.Drawing.Point(684, 521);
             this.openGLControl1.Name = "openGLControl1";
-            this.openGLControl1.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
+            this.openGLControl1.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL4_4;
             this.openGLControl1.RenderContextType = SharpGL.RenderContextType.DIBSection;
             this.openGLControl1.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
             this.openGLControl1.Size = new System.Drawing.Size(659, 414);
             this.openGLControl1.TabIndex = 4;
-            this.openGLControl1.OpenGLDraw += new SharpGL.RenderEventHandler(this.openGLControl1_OpenGLDraw);
+            // 
+            // btnExport
+            // 
+            this.btnExport.Location = new System.Drawing.Point(1349, 380);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(378, 23);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "EXPORT POINT CLOUD";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // StereoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1734, 977);
+            this.Controls.Add(this.btnExport);
             this.Controls.Add(this.openGLControl1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.toolStripInfo);
@@ -415,5 +426,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TrackBar prefFilter;
         private SharpGL.OpenGLControl openGLControl1;
+        private System.Windows.Forms.Button btnExport;
     }
 }

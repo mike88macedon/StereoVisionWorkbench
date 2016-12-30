@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using SharpGL;
+using SharpGL.SceneGraph.Cameras;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -30,6 +31,10 @@ namespace StereoVisionWorkbench.StereoUtillities
         public StereoCalibration StereoCalibrated { get; set; }
         public MCvPoint3D32f[] Points { get; set; }
         //Creating of EventArgs for the custom Event
+        OpenGL OpenGL { get; set; }
+        Camera PerspectiveCamera;
+        float zoomFactor = 0.5f;
+        float sumFactor = 0.0f;
         public class StereoEventArgs : EventArgs
         {
             private String message;
@@ -49,33 +54,62 @@ namespace StereoVisionWorkbench.StereoUtillities
             PicBoxTwo = pic2;
             PicBoxDisparity = disparity;
             StereoForm.GLControl.OpenGLDraw += GLControl_OpenGLDraw;
+            StereoForm.GLControl.KeyDown += GLControl_KeyDown;
+            PerspectiveCamera = new PerspectiveCamera();
         }
+   
+        private void GLControl_KeyDown(object sender, KeyEventArgs e)
+        {
+          
+            if (e.KeyCode==Keys.W)
+            {
+                sumFactor += zoomFactor;
+                PerspectiveCamera.Position = new SharpGL.SceneGraph.Vertex(StereoForm.MousePosition.X/100, StereoForm.MousePosition.Y / 100, sumFactor);
+               
+                PerspectiveCamera.TransformProjectionMatrix(OpenGL);
+                PerspectiveCamera.Project(OpenGL);
+            }
+            if (e.KeyCode==Keys.S)
+            {
+                sumFactor -= zoomFactor;
+                PerspectiveCamera.Position = new SharpGL.SceneGraph.Vertex(StereoForm.MousePosition.X / 100, StereoForm.MousePosition.Y / 100, sumFactor);
+           
+                PerspectiveCamera.TransformProjectionMatrix(OpenGL);
+                PerspectiveCamera.Project(OpenGL);
+            }
+        }
+
+    
 
         private void GLControl_OpenGLDraw(object sender, SharpGL.RenderEventArgs args)
         {
-            Task drawTAsk = Task.Factory.StartNew(() => {
-                StereoForm.GLControl.Invoke(new Action(() => {
-                    OpenGL gl = StereoForm.GLControl.OpenGL;
-                    gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);  
-                    gl.LoadIdentity();                                                                           
-                    gl.Translate(-1.5f, 0.0f, -6.0f);             
-                  
-                    if (Points!=null)
+            StereoForm.GLControl.Invoke(new Action(() =>
+            {
+                OpenGL gl = StereoForm.GLControl.OpenGL;
+
+                OpenGL = gl;
+                gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+                gl.LoadIdentity();
+                gl.Translate(-1.5f, 0.0f, -6.0f);
+               
+                if (Points != null)
+                {
+                    gl.Begin(OpenGL.GL_POINTS);
+                    foreach (MCvPoint3D32f item in Points)
                     {
-
-                        gl.Begin(OpenGL.GL_POINTS);
-                        foreach (MCvPoint3D32f item in Points)
-                        {
-                            gl.Vertex(item.X/100.00, item.Y/100.0, item.Z/100.0);
-                            gl.Color(1.0f, 0.0f, 0.0f);         // Red
-                        }
-                        gl.End();
-                        gl.Flush();
+  
+                        gl.Vertex(item.X / 100.00, item.Y / 100.0, item.Z / 100.0);
+                        gl.Color(1.0f, 0.0f, 0.0f);         // Red
                     }
-                }));
+                    gl.End();
+                    gl.Flush();
+                }
+            }));
 
-            });
         }
+
+
+
 
         public void StartStereoPair()
         {

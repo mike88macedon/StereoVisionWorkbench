@@ -279,6 +279,7 @@ namespace StereoVisionWorkbench.StereoUtillities
                   SGBM: modified H. Hirschmuller algorithm HH08*/
                 points = PointCollection.ReprojectImageTo3D(disparityMap, Q); //Reprojects disparity image to 3D space.
                                                                               // }
+                                                                              
             }
             catch (Exception ex)
             {

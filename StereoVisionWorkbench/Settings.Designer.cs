@@ -33,12 +33,14 @@
             this.txtLeftImages = new System.Windows.Forms.TextBox();
             this.txtRightImages = new System.Windows.Forms.TextBox();
             this.btnSaveConfiguration = new System.Windows.Forms.Button();
+            this.txtPcds = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblLeftImgs
             // 
             this.lblLeftImgs.AutoSize = true;
-            this.lblLeftImgs.Location = new System.Drawing.Point(12, 25);
+            this.lblLeftImgs.Location = new System.Drawing.Point(19, 25);
             this.lblLeftImgs.Name = "lblLeftImgs";
             this.lblLeftImgs.Size = new System.Drawing.Size(107, 13);
             this.lblLeftImgs.TabIndex = 0;
@@ -69,7 +71,7 @@
             // 
             // btnSaveConfiguration
             // 
-            this.btnSaveConfiguration.Location = new System.Drawing.Point(268, 129);
+            this.btnSaveConfiguration.Location = new System.Drawing.Point(268, 188);
             this.btnSaveConfiguration.Name = "btnSaveConfiguration";
             this.btnSaveConfiguration.Size = new System.Drawing.Size(75, 23);
             this.btnSaveConfiguration.TabIndex = 4;
@@ -77,11 +79,29 @@
             this.btnSaveConfiguration.UseVisualStyleBackColor = true;
             this.btnSaveConfiguration.Click += new System.EventHandler(this.btnSaveConfiguration_Click);
             // 
+            // txtPcds
+            // 
+            this.txtPcds.Location = new System.Drawing.Point(125, 136);
+            this.txtPcds.Name = "txtPcds";
+            this.txtPcds.Size = new System.Drawing.Size(218, 20);
+            this.txtPcds.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(80, 143);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "PCDS:";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 157);
+            this.ClientSize = new System.Drawing.Size(366, 245);
+            this.Controls.Add(this.txtPcds);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSaveConfiguration);
             this.Controls.Add(this.txtRightImages);
             this.Controls.Add(this.txtLeftImages);
@@ -102,5 +122,7 @@
         private System.Windows.Forms.TextBox txtLeftImages;
         private System.Windows.Forms.TextBox txtRightImages;
         private System.Windows.Forms.Button btnSaveConfiguration;
+        private System.Windows.Forms.TextBox txtPcds;
+        private System.Windows.Forms.Label label1;
     }
 }
