@@ -32,8 +32,6 @@ namespace StereoVisionWorkbench.StereoUtillities
         public MCvPoint3D32f[] Points { get; set; }
         //Creating of EventArgs for the custom Event
         OpenGL OpenGL { get; set; }
-    
-        float ZoomFactor { get; set; }
         public class StereoEventArgs : EventArgs
         {
             private String message;
@@ -53,23 +51,23 @@ namespace StereoVisionWorkbench.StereoUtillities
             PicBoxTwo = pic2;
             PicBoxDisparity = disparity;
             StereoForm.GLControl.OpenGLDraw += GLControl_OpenGLDraw;
-           
+
         }
 
-        
+
 
         private void GLControl_OpenGLDraw(object sender, SharpGL.RenderEventArgs args)
         {
             StereoForm.GLControl.Invoke(new Action(() =>
             {
-                
+
                 OpenGL gl = StereoForm.GLControl.OpenGL;
 
                 OpenGL = gl;
                 OpenGL.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
                 OpenGL.LoadIdentity();
                 OpenGL.Translate(0.0f, 0.0f, -2.0f);
-            
+
 
                 if (Points != null)
                 {
@@ -77,7 +75,7 @@ namespace StereoVisionWorkbench.StereoUtillities
                     foreach (MCvPoint3D32f item in Points)
                     {
 
-                        OpenGL.Vertex(item.GetNormalizedPoint().X, item.GetNormalizedPoint().Y , item.GetNormalizedPoint().Z );
+                        OpenGL.Vertex(item.GetNormalizedPoint().X, item.GetNormalizedPoint().Y, item.GetNormalizedPoint().Z);
                         OpenGL.Color(0.5f, 0.6f, 0.4f);         // Red
                     }
                     OpenGL.End();
